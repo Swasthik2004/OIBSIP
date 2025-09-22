@@ -1,0 +1,25 @@
+# Task 2: Student Marks Analysis
+# Intern: Swasthik Servegar
+# Date: 23 Sept 2025
+
+import pandas as pd
+
+# Load CSV file
+data = pd.read_csv("data.csv")
+
+# Calculate averages
+data['Average'] = data[['Math', 'Physics', 'Chemistry']].mean(axis=1)
+
+# Highest and lowest marks
+highest = data[['Math', 'Physics', 'Chemistry']].max()
+lowest = data[['Math', 'Physics', 'Chemistry']].min()
+
+# Save report to CSV
+data.to_csv("report.csv", index=False)
+
+print("Student Marks Report:")
+print(data)
+print("\nHighest marks in each subject:")
+print(highest)
+print("\nLowest marks in each subject:")
+print(lowest)

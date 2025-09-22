@@ -1,0 +1,39 @@
+# Task 3: Web Scraper for Cryptocurrency Prices
+# Intern: Swasthik Servegar
+# Date: 24 Sept 2025
+
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+
+# URL to scrape (CoinMarketCap Top 5 Cryptocurrencies)
+url = "https://coinmarketcap.com/"
+
+# Send request
+response = requests.get(url)
+soup = BeautifulSoup(response.text, "html.parser")
+
+# Extract names and prices (Top 5)
+crypto_names = []
+crypto_prices = []
+
+table = soup.find("tbody")
+rows = table.find_all("tr")[:5]  # top 5
+
+for row in rows:
+    name = row.find("p", class_="sc-1eb5slv-0 iworPT").text
+    price = row.find("div", class_="sc-131di3y-0 cLgOOr").text
+    crypto_names.append(name)
+    crypto_prices.append(price)
+
+# Create DataFrame
+df = pd.DataFrame({
+    "Cryptocurrency": crypto_names,
+    "Price": crypto_prices
+})
+
+# Save to CSV
+df.to_csv("crypto_prices.csv", index=False)
+
+print("Top 5 Cryptocurrencies Prices:")
+print(df)
